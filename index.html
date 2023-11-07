@@ -1,0 +1,119 @@
+<template>
+  <div class="container text-center">
+    <div class="all">
+      <input
+        type="text"
+        class="form-control"
+        id="searchBar"
+        placeholder="Keresett szín"
+        v-model="this.searchText"
+      /><button class="btn btn-primary" @click="search()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      &ensp;<button class="btn btn-danger" @click="deleteSearch()">X</button>
+    </div>
+
+    <div class="row">
+      <div class="col" v-for="item in this.dogs" :key="item.id">
+        <div class="card" style="width: 18rem">
+          <img :src="item.image" class="card-img-top" />
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">
+              {{ item.desc }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "HelloWorld",
+  props: {
+    msg: String,
+  },
+
+  methods: {
+    search() {
+      this.filteredDogs = this.dogs;
+      this.dogs = [];
+      console.log(this.searchText);
+      for (let i = 0; i < this.filteredDogs.length; i++) {
+        console.log(i);
+        if (this.searchText == this.filteredDogs[i].color) {
+          this.dogs.push(this.filteredDogs[i]);
+        }
+      }
+    },
+    deleteSearch() {
+      this.dogs = this.filteredDogs;
+      this.searchText = "";
+    },
+  },
+
+  data() {
+    return {
+      dogs: [
+        {
+          id: 1,
+          name: "Pingu",
+          desc: "Pingu egy fekete kutya",
+          image: "dog.jpg",
+          color: "black",
+        },
+        {
+          id: 2,
+          name: "Alice",
+          desc: "Alice egy barna kutya",
+          image: "dog2.jpg",
+          color: "brown",
+        },
+        {
+          id: 3,
+          name: "Bob",
+          desc: "Bob egy barna kutya",
+          image: "dog3.jpg",
+          color: "brown",
+        },
+        {
+          id: 4,
+          name: "Gáspár",
+          desc: "Gáspár egy fehér kutya",
+          image: "dog4.jpg",
+          color: "white",
+        },
+      ],
+
+      filteredDogs: [],
+
+      searchText: "",
+    };
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.card-img-top {
+  max-width: 300px;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+#searchBar {
+  max-width: 400px;
+  margin-right: 20px;
+}
+
+.card {
+  margin: 50px;
+}
+
+.all {
+  max-width: 50vw;
+  display: flex;
+}
+</style>
